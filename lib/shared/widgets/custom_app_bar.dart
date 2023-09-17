@@ -43,12 +43,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ),
       actions: [
         InkWell(
-          onTap: () async {
-            // await Get.to(
-            //   () => const ProfilePage(),
-            //   preventDuplicates: true,
-            // );
-          },
+          onTap: () async {},
           child: CircleAvatar(
             child: Text(box.read('initials')),
           ),
