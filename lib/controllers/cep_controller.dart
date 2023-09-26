@@ -102,17 +102,26 @@ class CepController extends GetxController {
   Future<CepResponse> search(String cep) async {
     final cepRespository = CepRepository();
     CepListModel cepItems = await cepRespository.get(cep);
-    CepResponse response = CepResponse(
-      error: false,
-      data: cepItems,
-      message: "Cep encontrado com sucesso.",
-      title: "Sucesso!",
-    );
-    cepList.assignAll(cepItems.results!.map((data) => data).toList());
+    CepResponse response;
 
-    if (response.error) {
-      await Get.dialog(FeedBackDialog(response: response));
+    if (cepItems.results!.isNotEmpty) {
+      cepList.assignAll(cepItems.results!.map((data) => data).toList());
+      response = CepResponse(
+        error: false,
+        data: cepItems,
+        message: "Cep encontrado com sucesso.",
+        title: "Sucesso!",
+      );
+    } else {
+      response = CepResponse(
+        error: true,
+        data: cepItems,
+        message: "Cep não encontrado!",
+        title: "Alerta!",
+      );
     }
+
+    await Get.dialog(FeedBackDialog(response: response));
 
     return response;
   }
@@ -183,6 +192,10 @@ class CepController extends GetxController {
 
   Future<CepResponse> searchAndSave(String seekedCep) async {
     CepResponse searchResponse = await search(seekedCep);
+
+    if (searchResponse.error) {
+      return searchResponse;
+    }
 
     ViaCepModel viaCepModel = searchResponse.data ?? ViaCepModel();
     CepResponse saveResponse = await add(cep: viaCepModel.toCepModel());
