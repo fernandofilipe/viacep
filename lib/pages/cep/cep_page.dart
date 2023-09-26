@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:viacep/controllers/cep_controller.dart';
 import 'package:viacep/controllers/viacep_controller.dart';
 import 'package:viacep/models/cep_model.dart';
-import 'package:viacep/models/general_response_model.dart';
-import 'package:viacep/models/via_cep_model.dart';
 import 'package:viacep/pages/cep/edit_cep_page.dart';
 import 'package:viacep/shared/widgets/cep_tile.dart';
 import 'package:viacep/shared/widgets/custom_app_header.dart';
@@ -24,8 +22,6 @@ class _CepPageState extends State<CepPage> {
   final CepController _cepController = Get.put(CepController());
   final ViaCepController _viaCepController = Get.put(ViaCepController());
 
-  CepModel cepModel = CepModel();
-  ViaCepModel viaCepModel = ViaCepModel();
   bool loading = false;
 
   @override
@@ -103,15 +99,8 @@ class _CepPageState extends State<CepPage> {
                 });
 
                 FocusManager.instance.primaryFocus?.unfocus();
+                await _cepController.searchAndSave(cep);
 
-                CepResponse response = await _viaCepController.search(cep);
-                viaCepModel = response.data ?? ViaCepModel();
-                debugPrint(viaCepModel.address);
-
-                CepResponse saveResponse =
-                    await _cepController.add(cep: viaCepModel.toCepModel());
-
-                debugPrint(saveResponse.toString());
                 setState(() {
                   loading = false;
                 });

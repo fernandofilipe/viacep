@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:viacep/models/cep_model.dart';
 import 'package:viacep/models/general_response_model.dart';
+import 'package:viacep/models/via_cep_model.dart';
 import 'package:viacep/repository/cep/cep_repository.dart';
 import 'package:viacep/shared/widgets/feedback_dialog.dart';
 
@@ -178,5 +179,14 @@ class CepController extends GetxController {
     await Get.dialog(FeedBackDialog(response: cepResponse));
     if (!cepResponse.error) Get.back();
     return cepResponse;
+  }
+
+  Future<CepResponse> searchAndSave(String seekedCep) async {
+    CepResponse searchResponse = await search(seekedCep);
+
+    ViaCepModel viaCepModel = searchResponse.data ?? ViaCepModel();
+    CepResponse saveResponse = await add(cep: viaCepModel.toCepModel());
+
+    return saveResponse;
   }
 }
