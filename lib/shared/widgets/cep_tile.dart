@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:viacep/models/cep.dart';
+import 'package:viacep/models/cep_model.dart';
 
 class CepTile extends StatelessWidget {
-  final Cep cep;
+  final CepModel cep;
   const CepTile({super.key, required this.cep});
 
   @override
@@ -17,7 +17,7 @@ class CepTile extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: context.theme.cardColor,
+          color: context.theme.primaryColorDark,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,30 +26,7 @@ class CepTile extends StatelessWidget {
             const Divider(
               color: Colors.white,
             ),
-            Row(
-              children: [
-                _buildMeasurementsBox(
-                  "Cep",
-                  "",
-                  cep.cep,
-                  Icons.design_services_outlined,
-                ),
-                _buildMeasurementsBox(
-                  "Logradouro",
-                  "",
-                  cep.logradouro,
-                  Icons.fitness_center_outlined,
-                ),
-                _buildMeasurementsBox(
-                  "Bairro",
-                  "",
-                  cep.bairro,
-                  Icons.balance,
-                ),
-                _buildVerticalLine(),
-                _buildVerticalBox(),
-              ],
-            ),
+            _buildContent(),
           ],
         ),
       ),
@@ -59,27 +36,20 @@ class CepTile extends StatelessWidget {
   _buildHeader() {
     return Row(
       children: [
-        const Icon(
-          Icons.person_outline_sharp,
-          color: Colors.white,
-          size: 24,
-        ),
-        const SizedBox(
-          width: 4,
-        ),
-        Text(
-          "#${cep.id} - ${cep.uf}",
-          style: GoogleFonts.lato(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        _buildHeaderItem('CEP: ${cep.postalCode}', Icons.mail),
         Expanded(
           child: Container(),
         ),
-        const Icon(
-          Icons.calendar_month,
+        _buildHeaderItem(cep.objectId.toString(), Icons.key),
+      ],
+    );
+  }
+
+  _buildHeaderItem(String label, IconData icon) {
+    return Row(
+      children: [
+        Icon(
+          icon,
           color: Colors.white,
           size: 20,
         ),
@@ -87,82 +57,67 @@ class CepTile extends StatelessWidget {
           width: 4,
         ),
         Text(
-          cep.updatedAt,
+          label,
           style: GoogleFonts.lato(
             fontSize: 14,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
+        )
+      ],
+    );
+  }
+
+  _buildContent() {
+    return Column(
+      children: [
+        _buildContentItem("Localidade", '${cep.city} - ${cep.state}'),
+        _buildContentItem("Logradouro", cep.address ?? "-"),
+        _buildContentItem("Complemento", cep.complement ?? "-"),
+        _buildContentItem("Bairro", cep.neighborhood ?? "-"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildContentItem("Ibge", cep.ibge ?? "-"),
+            _buildContentItem("Gia", cep.gia ?? "-"),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildContentItem("DDD", cep.ddd ?? "-"),
+            _buildContentItem("Siafi", cep.siafi ?? "-"),
+          ],
         ),
       ],
     );
   }
 
-  _buildMeasurementsBox(String title, String unitOfmeasurement,
-      String measurement, IconData icon) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.lato(
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+  _buildContentItem(String title, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          '$title: ',
+          style: GoogleFonts.lato(
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
             ),
           ),
-          const SizedBox(
-            height: 12,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                color: Colors.grey[200],
-                size: 18,
-              ),
-              const SizedBox(
-                width: 6,
-              ),
-              Text(
-                "$measurement $unitOfmeasurement",
-                style: GoogleFonts.lato(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[200],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  _buildVerticalLine() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      height: 60,
-      width: 0.5,
-      color: Colors.grey[200]!.withOpacity(0.7),
-    );
-  }
-
-  _buildVerticalBox() {
-    return RotatedBox(
-      quarterTurns: 3,
-      child: Text(
-        cep.ibge.toString(),
-        style: const TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
         ),
-      ),
+        Text(
+          value,
+          style: GoogleFonts.lato(
+            textStyle: const TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

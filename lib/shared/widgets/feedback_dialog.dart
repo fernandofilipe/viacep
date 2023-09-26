@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:viacep/models/response.dart';
+import 'package:viacep/models/general_response_model.dart';
 import 'package:viacep/shared/layout/theme.dart';
 
 class FeedBackDialog extends StatelessWidget {
-  final GeneralResponse response;
+  final GeneralResponseModel response;
   const FeedBackDialog({super.key, required this.response});
   final textMaxLines = 10;
 
@@ -33,10 +33,12 @@ class FeedBackDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: Text(
-                      response.message,
-                      maxLines: textMaxLines,
-                      overflow: TextOverflow.ellipsis,
+                    child: Center(
+                      child: Text(
+                        response.message,
+                        maxLines: textMaxLines,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ],

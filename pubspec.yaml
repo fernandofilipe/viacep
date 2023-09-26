@@ -44,6 +44,9 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   flutter_typeahead:
   curved_navigation_bar: 1.0.2
+  flutter_dotenv: ^5.1.0
+  dio: ^5.3.3
+  brasil_fields: ^1.14.0
 
 dev_dependencies:
   flutter_test:
@@ -68,7 +71,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - .env
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

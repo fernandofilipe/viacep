@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:viacep/shared/constants.dart';
 import 'package:viacep/shared/layout/theme.dart';
 
@@ -21,7 +20,7 @@ class CustomAppHeader extends StatelessWidget {
                 style: headingStyle,
               ),
               Text(
-                DateFormat.yMMMMd(Constants.appLocale).format(DateTime.now()),
+                "Busca e Salva CEPs",
                 style: subHeadingStyle,
               ),
             ],

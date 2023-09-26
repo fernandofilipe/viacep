@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:viacep/base_app.dart';
 import 'package:viacep/shared/constants.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +13,7 @@ Future<void> main() async {
   final box = GetStorage();
 
   box.write('initials', 'FR');
+  await dotenv.load(fileName: ".env");
 
   Intl.defaultLocale = Constants.appLocale;
   initializeDateFormatting(Constants.appLocale);

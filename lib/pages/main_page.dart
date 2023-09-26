@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:viacep/enums/page_types.dart';
-import 'package:viacep/pages/cep_page.dart';
+import 'package:viacep/pages/cep/cep_page.dart';
 import 'package:viacep/shared/widgets/custom_app_bar.dart';
 import 'package:viacep/shared/widgets/custom_navibar.dart';
 import 'package:viacep/shared/widgets/custom_navibar_item.dart';

@@ -1,12 +1,12 @@
 import 'package:viacep/models/user.dart';
 
-abstract class GeneralResponse {
+abstract class GeneralResponseModel {
   bool error;
   String title;
   String message;
   dynamic data;
 
-  GeneralResponse({
+  GeneralResponseModel({
     this.error = false,
     this.title = "",
     this.message = "",
@@ -14,7 +14,7 @@ abstract class GeneralResponse {
   });
 }
 
-class CepResponse extends GeneralResponse {
+class CepResponse extends GeneralResponseModel {
   CepResponse({
     bool error = false,
     String title = "",
@@ -23,7 +23,7 @@ class CepResponse extends GeneralResponse {
   }) : super(error: error, title: title, message: message, data: data);
 }
 
-class UserResponse extends GeneralResponse {
+class UserResponse extends GeneralResponseModel {
   UserResponse({
     bool error = false,
     String title = "",
